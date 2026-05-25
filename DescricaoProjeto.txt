@@ -1,0 +1,572 @@
+Sistema web de pontuação para grupos de jovens da igreja
+
+Tecnologias obrigatórias:
+
+* Backend: PHP puro (preferencialmente orientado a objetos)
+* Banco de dados: MySQL
+* Envio de e-mails: PHPMailer
+* Front-end responsivo para celular e computador
+* Autenticação com sessão segura
+* Senhas criptografadas usando password_hash() e password_verify()
+* Sistema de permissões por níveis
+* Histórico completo de alterações (log/auditoria)
+
+Objetivo
+
+Criar um sistema onde grupos de jovens da igreja participam de atividades durante um período determinado e acumulam pontos.
+
+Os grupos competem entre si em um ranking geral.
+
+Os pontos podem vir de:
+
+* Presença na escola bíblica
+* Participação em oração
+* Visitantes
+* Bíblias levadas
+* Leitura bíblica
+* Gincanas
+* Dinâmicas
+* Eventos
+* Bônus administrativos
+* Penalidades
+
+O sistema deve ser totalmente configurável pelo painel administrativo.
+
+⸻
+
+Tipos de usuários
+
+1. Público (sem login)
+
+Pode:
+
+* Ver ranking geral
+* Ver pódio
+* Ver pontos totais
+* Ver gráfico de evolução
+* Ver histórico público
+* Ver dias restantes para encerramento
+* Ver perfil dos grupos
+
+Não pode:
+
+* Alterar dados
+* Registrar atividades
+
+⸻
+
+2. Membro simples
+
+Cadastro:
+
+* Nome
+* Grupo
+
+Não possui:
+
+* E-mail
+* Senha
+* Login
+
+Função:
+
+* Apenas existir no sistema para presença e estatísticas
+
+Exemplo:
+
+João
+Maria
+Lucas
+
+⸻
+
+3. Supervisor/Líder do grupo
+
+Cadastro:
+
+* Nome
+* E-mail
+* Senha
+* Grupo vinculado
+
+Pode:
+
+* Fazer login
+* Registrar atividades do próprio grupo
+* Registrar visitantes
+* Marcar presenças
+* Ver histórico do próprio grupo
+* Editar registros recentes
+
+Não pode:
+
+* Alterar outros grupos
+* Alterar regras
+* Excluir grupos
+* Alterar pontuação manual
+
+Supervisor pode criar outro supervisor do próprio grupo.
+
+Exemplo:
+
+Grupo Ágape:
+
+Supervisor principal:
+Pedro
+
+Supervisor criado:
+Lucas
+
+Ambos podem lançar pontos apenas do Grupo Ágape.
+
+⸻
+
+4. Administrador geral
+
+Pode:
+
+* Criar grupos
+* Criar atividades
+* Editar grupos
+* Criar supervisores
+* Criar administradores
+* Criar regras
+* Adicionar pontos
+* Remover pontos
+* Aplicar bônus
+* Aplicar penalidades
+* Corrigir erros
+* Alterar qualquer registro
+* Ver tudo
+* Definir datas do campeonato
+
+⸻
+
+Grupos
+
+Cada grupo possui:
+
+* Nome
+* Foto
+* Cor do grupo
+* Versículo
+* Descrição
+* Quantidade de membros
+* Supervisores vinculados
+
+⸻
+
+Sistema de atividades
+
+Cada atividade precisa possuir:
+
+Nome:
+
+Exemplo:
+
+* Presença escola bíblica
+* Visitantes
+* Bíblias
+* Oração
+* Dinâmica
+
+Tipo de pontuação:
+
+1. Fixo
+2. Proporcional
+3. Bônus/Penalidade
+
+⸻
+
+Tipo de entrada da atividade
+
+1. Check de membros
+
+Usado para:
+
+* Presença
+* Oração
+* Leitura bíblica
+* Decorar versículos
+
+Funcionamento:
+
+Mostrar lista de membros:
+
+☑️ João
+☑️ Maria
+☐ Lucas
+☑️ Pedro
+
+Sistema calcula:
+
+Quantidade marcada ÷ quantidade total do grupo
+
+Exemplo:
+
+Grupo possui:
+
+12 membros
+
+Marcados:
+
+9
+
+Se atividade vale:
+
+40 pontos
+
+Resultado:
+
+9 ÷ 12 = 75%
+
+75% × 40
+
+30 pontos
+
+⸻
+
+2. Lista de nomes
+
+Usado para:
+
+* Visitantes
+
+Funcionamento:
+
+Campo:
+
+Visitantes:
+
+* Ana
+* Carlos
+* Fernanda
+
+Botão:
+
+* Adicionar visitante
+
+Salvar nomes individualmente.
+
+Opcional:
+
+Evitar duplicidade.
+
+Exemplo:
+
+“Ana já foi registrada anteriormente”
+
+⸻
+
+3. Quantidade
+
+Usado para:
+
+* Bíblias
+* Cestas
+* Participantes externos
+* Itens numéricos
+
+Exemplo:
+
+Bíblias:
+
+6
+
+Cálculo:
+
+6 × pontos definidos
+
+⸻
+
+4. Valor manual
+
+Usado para:
+
+* Bônus
+* Penalidades
+* Pontos especiais
+
+Campos:
+
+Valor:
+
++20
+
+Motivo:
+
+“Ganhou dinâmica”
+
+⸻
+
+Sistema de lançamentos
+
+Um único lançamento pode possuir vários itens.
+
+Exemplo:
+
+Registro:
+
+Escola Bíblica - 25/05/2026
+
+Grupo:
+
+Ágape
+
+Itens:
+
+Presença:
+☑️ João
+☑️ Maria
+☑️ Pedro
+
+Visitantes:
+
+* Ana
+* Carlos
+
+Bíblias:
+
+6
+
+Oração:
+
+☑️ João
+☑️ Pedro
+
+Sistema calcula automaticamente:
+
+Presença:
+
++30
+
+Visitantes:
+
++30
+
+Bíblias:
+
++12
+
+Oração:
+
++10
+
+Total:
+
++82
+
+Salvar tudo em um único lançamento.
+
+⸻
+
+Ajustes administrativos
+
+Administrador pode criar:
+
+Bônus
+
+Exemplo:
+
++20
+
+Motivo:
+
+“Ganhou desafio bíblico”
+
+⸻
+
+Penalidade
+
+Exemplo:
+
+−15
+
+Motivo:
+
+“Registro inválido”
+
+⸻
+
+Histórico e auditoria
+
+Toda ação deve gerar log.
+
+Exemplo:
+
+25/05/2026 19:20
+
+Usuário:
+Pedro
+
+Ação:
+Criou lançamento
+
+Grupo:
+Ágape
+
+Resultado:
++82 pontos
+
+⸻
+
+25/05/2026 20:10
+
+Usuário:
+Administrador Patrick
+
+Ação:
+Penalidade
+
+Grupo:
+Ágape
+
+Valor:
+−10
+
+Motivo:
+“Visitante duplicado”
+
+Nenhuma alteração pode ser apagada definitivamente.
+
+Usar exclusão lógica.
+
+⸻
+
+Sistema de e-mails (PHPMailer)
+
+Usar PHPMailer para:
+
+Cadastro:
+
+Enviar:
+
+“Conta criada”
+
+⸻
+
+Recuperação de senha:
+
+Enviar link com token temporário.
+
+⸻
+
+Novo supervisor criado:
+
+Enviar:
+
+“Você foi adicionado como supervisor”
+
+⸻
+
+Mudança de senha:
+
+Enviar notificação.
+
+⸻
+
+Novo campeonato iniciado:
+
+Enviar aviso aos supervisores.
+
+⸻
+
+Dashboard público
+
+Mostrar:
+
+* Ranking geral
+* Pódio
+* Gráfico de evolução
+* Últimas atividades
+* Dias restantes
+* Perfil dos grupos
+* Total de pontos
+
+⸻
+
+Banco de dados sugerido
+
+usuarios
+
+* id
+* nome
+* email
+* senha
+* tipo
+* grupo_id
+
+grupos
+
+* id
+* nome
+* foto
+* cor
+* versiculo
+* descricao
+
+membros
+
+* id
+* nome
+* grupo_id
+
+atividades
+
+* id
+* nome
+* tipo_pontuacao
+* tipo_entrada
+* pontos
+
+registros
+
+* id
+* grupo_id
+* criado_por
+* data
+
+registro_itens
+
+* id
+* registro_id
+* atividade_id
+* quantidade
+* pontos_calculados
+
+visitantes
+
+* id
+* nome
+* registro_item_id
+
+presencas
+
+* id
+* membro_id
+* registro_item_id
+
+historico
+
+* id
+* usuario_id
+* grupo_id
+* acao
+* valor
+* motivo
+* data
+
+⸻
+
+Criar código limpo com separação entre:
+
+* Models
+* Controllers
+* Views
+* Services
+* Autenticação
+* Permissões
+* PHPMailer
+* Banco de dados
+
+Todo sistema deve ser responsivo e priorizar uso em celular, pois os supervisores provavelmente lançarão dados durante os encontros da igreja.
