@@ -45,6 +45,12 @@
         </div>
     <?php endforeach; ?>
 
+    <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+        <label class="block text-sm font-bold text-gray-700 mb-2">Observações (Opcional)</label>
+        <textarea name="observacoes" rows="3" maxlength="1000" class="w-full px-3 py-2 border border-gray-300 rounded-md" placeholder="João trouxe dois visitantes e o grupo participou da oração antes do culto..."></textarea>
+        <p class="text-xs text-gray-500 mt-1">Máximo 1000 caracteres. Visível no histórico público.</p>
+    </div>
+
     <div class="sticky bottom-4 bg-white p-4 rounded-lg shadow-lg border border-gray-200 flex justify-between items-center z-10">
         <p class="text-sm text-gray-500">Revise os dados antes de salvar. Os cálculos serão feitos automaticamente.</p>
         <button type="submit" class="bg-green-600 text-white font-bold py-3 px-8 rounded-md hover:bg-green-700 shadow-md text-lg">

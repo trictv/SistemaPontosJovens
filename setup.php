@@ -63,6 +63,8 @@ try {
             id INT AUTO_INCREMENT PRIMARY KEY,
             nome VARCHAR(100) NOT NULL,
             grupo_id INT NOT NULL,
+            status ENUM('ativo', 'inativo') DEFAULT 'ativo',
+            data_cadastro DATETIME DEFAULT CURRENT_TIMESTAMP,
             deletado_em DATETIME NULL,
             FOREIGN KEY (grupo_id) REFERENCES grupos(id)
         )
@@ -87,8 +89,11 @@ try {
         CREATE TABLE IF NOT EXISTS registros (
             id INT AUTO_INCREMENT PRIMARY KEY,
             grupo_id INT NOT NULL,
+            status ENUM('ativo', 'inativo') DEFAULT 'ativo',
+            data_cadastro DATETIME DEFAULT CURRENT_TIMESTAMP,
             criado_por INT NOT NULL,
             data DATETIME NOT NULL,
+            observacoes TEXT NULL,
             deletado_em DATETIME NULL,
             FOREIGN KEY (grupo_id) REFERENCES grupos(id),
             FOREIGN KEY (criado_por) REFERENCES usuarios(id)
@@ -147,6 +152,7 @@ try {
             motivo TEXT NULL,
             detalhes TEXT NULL,
             data DATETIME NOT NULL,
+            observacoes TEXT NULL,
             FOREIGN KEY (usuario_id) REFERENCES usuarios(id),
             FOREIGN KEY (grupo_id) REFERENCES grupos(id)
         )

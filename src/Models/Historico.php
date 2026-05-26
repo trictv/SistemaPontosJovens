@@ -41,4 +41,49 @@ class Historico {
         $stmt->execute();
         return $stmt->fetchAll();
     }
+
+    public function getPublico($filtros = [], $limite = 50, $offset = 0) {
+        // Exibe histórico público combinando informações de registros e histórico manual
+        $query = "
+            SELECT
+                h.id, h.acao, h.valor, h.motivo, h.detalhes, h.data,
+                g.nome as grupo_nome, g.cor as grupo_cor,
+                u.nome as usuario_nome
+            FROM historico h
+            LEFT JOIN grupos g ON h.grupo_id = g.id
+            LEFT JOIN usuarios u ON h.usuario_id = u.id
+            WHERE 1=1
+        ";
+
+        $params = [];
+
+        if (!empty($filtros['grupo_id'])) {
+            $query .= " AND h.grupo_id = ?";
+            $params[] = $filtros['grupo_id'];
+        }
+
+        if (!empty($filtros['data_inicio'])) {
+            $query .= " AND DATE(h.data) >= ?";
+            $params[] = $filtros['data_inicio'];
+        }
+
+        if (!empty($filtros['data_fim'])) {
+            $query .= " AND DATE(h.data) <= ?";
+            $params[] = $filtros['data_fim'];
+        }
+
+        $query .= " ORDER BY h.data DESC LIMIT ? OFFSET ?";
+
+        $stmt = $this->db->prepare($query);
+
+        $paramIndex = 1;
+        foreach ($params as $param) {
+            $stmt->bindValue($paramIndex++, $param);
+        }
+        $stmt->bindValue($paramIndex++, $limite, PDO::PARAM_INT);
+        $stmt->bindValue($paramIndex, $offset, PDO::PARAM_INT);
+
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
 }
