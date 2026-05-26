@@ -70,7 +70,9 @@ class SupervisorController {
             $data_registro = $_POST['data'] ?? date('Y-m-d H:i:s');
 
             // Inicia o registro unificado
-            $registro_id = $this->registroModel->create($this->grupo_id, $_SESSION['user_id'], $data_registro);
+            $observacoes = isset($_POST['observacoes']) ? trim($_POST['observacoes']) : null;
+            if (empty($observacoes)) $observacoes = null;
+            $registro_id = $this->registroModel->create($this->grupo_id, $_SESSION['user_id'], $data_registro, $observacoes);
             $pontos_totais = 0;
 
             $registroItemModel = new RegistroItem();
@@ -144,6 +146,93 @@ class SupervisorController {
             $_SESSION['flash_message'] = "Registro salvo com sucesso! +{$pontos_totais} pontos.";
             $_SESSION['flash_type'] = "success";
             header("Location: /supervisor");
+            die();
+        }
+    }
+
+    public function adicionarMembro() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $nome = trim($_POST['nome'] ?? '');
+
+            if (!empty($nome)) {
+                $this->membroModel->create($nome, $this->grupo_id);
+                $this->historicoModel->log('Adicionou membro', null, null, "Membro: {$nome}", $this->grupo_id);
+
+                $_SESSION['flash_message'] = "Membro '{$nome}' adicionado com sucesso!";
+                $_SESSION['flash_type'] = "success";
+            } else {
+                $_SESSION['flash_message'] = "O nome do membro não pode estar vazio.";
+                $_SESSION['flash_type'] = "error";
+            }
+
+            header("Location: /supervisor");
+            die();
+        }
+    }
+
+    // --- GERENCIAMENTO DE MEMBROS (SUPERVISOR) ---
+
+    public function membros() {
+        $busca = $_GET['q'] ?? null;
+        $membros = $this->membroModel->getByGrupo($this->grupo_id, $busca);
+
+        $title = "Meus Membros";
+        ob_start();
+        include __DIR__ . '/../Views/supervisor/membros.php';
+        $content = ob_get_clean();
+        include __DIR__ . '/../Views/layouts/main.php';
+    }
+
+    public function editarMembro() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $id = $_POST['id'];
+            $nome = $_POST['nome'];
+            $status = $_POST['status'];
+
+            $membroAntigo = $this->membroModel->getById($id);
+
+            // Garante que o supervisor só pode editar membros do seu próprio grupo
+            if ($membroAntigo && $membroAntigo['grupo_id'] == $this->grupo_id) {
+                $this->membroModel->update($id, [
+                    'nome' => $nome,
+                    'grupo_id' => $this->grupo_id, // Não permite mudar o grupo
+                    'status' => $status
+                ]);
+
+                $detalhes = "Nome: {$nome}. Status: {$status}";
+                $this->historicoModel->log('Editou membro', null, null, $detalhes, $this->grupo_id);
+
+                $_SESSION['flash_message'] = "Membro editado com sucesso!";
+                $_SESSION['flash_type'] = "success";
+            } else {
+                $_SESSION['flash_message'] = "Erro: Membro não encontrado ou não pertence ao seu grupo.";
+                $_SESSION['flash_type'] = "error";
+            }
+
+            header("Location: /supervisor/membros");
+            die();
+        }
+    }
+
+    public function excluirMembro() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $id = $_POST['id'];
+
+            $membro = $this->membroModel->getById($id);
+
+            // Garante que o supervisor só pode excluir membros do seu próprio grupo
+            if ($membro && $membro['grupo_id'] == $this->grupo_id) {
+                $this->membroModel->delete($id);
+                $this->historicoModel->log('Removeu membro', null, null, "Membro: {$membro['nome']}", $this->grupo_id);
+
+                $_SESSION['flash_message'] = "Membro removido com sucesso!";
+                $_SESSION['flash_type'] = "success";
+            } else {
+                $_SESSION['flash_message'] = "Erro: Membro não encontrado ou não pertence ao seu grupo.";
+                $_SESSION['flash_type'] = "error";
+            }
+
+            header("Location: /supervisor/membros");
             die();
         }
     }

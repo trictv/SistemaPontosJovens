@@ -173,4 +173,86 @@ class AdminController {
             die();
         }
     }
+
+    // --- MEMBROS ---
+
+    public function membros() {
+        $busca = $_GET['q'] ?? null;
+        $membroModel = new \Models\Membro();
+        $membros = $membroModel->getAll($busca);
+        $grupos = $this->grupoModel->getAll();
+
+        $title = "Gerenciar Membros";
+        ob_start();
+        include __DIR__ . '/../Views/admin/membros.php';
+        $content = ob_get_clean();
+        include __DIR__ . '/../Views/layouts/main.php';
+    }
+
+    public function criarMembro() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $nome = $_POST['nome'];
+            $grupo_id = $_POST['grupo_id'];
+            $status = $_POST['status'] ?? 'ativo';
+
+            $membroModel = new \Models\Membro();
+            $membroModel->create($nome, $grupo_id, $status);
+
+            $this->historicoModel->log('Criou membro', null, null, "Membro: {$nome}", $grupo_id);
+
+            $_SESSION['flash_message'] = "Membro criado com sucesso!";
+            $_SESSION['flash_type'] = "success";
+            header("Location: /admin/membros");
+            die();
+        }
+    }
+
+    public function editarMembro() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $id = $_POST['id'];
+            $nome = $_POST['nome'];
+            $grupo_id = $_POST['grupo_id'];
+            $status = $_POST['status'];
+
+            $membroModel = new \Models\Membro();
+            $membroAntigo = $membroModel->getById($id);
+
+            if ($membroAntigo) {
+                $membroModel->update($id, [
+                    'nome' => $nome,
+                    'grupo_id' => $grupo_id,
+                    'status' => $status
+                ]);
+
+                $detalhes = "De: {$membroAntigo['nome']} para: {$nome}. Status: {$status}";
+                $this->historicoModel->log('Editou membro', null, null, $detalhes, $grupo_id);
+
+                $_SESSION['flash_message'] = "Membro editado com sucesso!";
+                $_SESSION['flash_type'] = "success";
+            }
+
+            header("Location: /admin/membros");
+            die();
+        }
+    }
+
+    public function excluirMembro() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $id = $_POST['id'];
+
+            $membroModel = new \Models\Membro();
+            $membro = $membroModel->getById($id);
+
+            if ($membro) {
+                $membroModel->delete($id);
+                $this->historicoModel->log('Removeu membro', null, null, "Membro: {$membro['nome']}", $membro['grupo_id']);
+
+                $_SESSION['flash_message'] = "Membro removido com sucesso!";
+                $_SESSION['flash_type'] = "success";
+            }
+
+            header("Location: /admin/membros");
+            die();
+        }
+    }
 }

@@ -19,8 +19,10 @@
     <nav class="bg-blue-600 text-white shadow-md">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
-                <div class="flex items-center">
-                    <a href="/" class="font-bold text-xl">Youth Score</a>
+                <div class="flex items-center gap-4">
+                    <a href="/" class="font-bold text-xl mr-2">Youth Score</a>
+                    <a href="/" class="text-sm font-medium hover:text-blue-200 hidden sm:block">Ranking</a>
+                    <a href="/historico" class="text-sm font-medium hover:text-blue-200 hidden sm:block">Histórico</a>
                 </div>
                 <div class="flex">
                     <?php if (isset($_SESSION['user_id'])): ?>

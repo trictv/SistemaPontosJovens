@@ -13,11 +13,16 @@ if ($uri === '') {
 
 $routes = [
     '/' => ['PublicController', 'index'],
+    '/historico' => ['PublicController', 'historico'],
     '/login' => ['AuthController', 'login'],
     '/logout' => ['AuthController', 'logout'],
     '/admin' => ['AdminController', 'dashboard'],
     '/admin/grupos' => ['AdminController', 'grupos'],
     '/admin/grupos/criar' => ['AdminController', 'criarGrupo'],
+    '/admin/membros' => ['AdminController', 'membros'],
+    '/admin/membros/criar' => ['AdminController', 'criarMembro'],
+    '/admin/membros/editar' => ['AdminController', 'editarMembro'],
+    '/admin/membros/excluir' => ['AdminController', 'excluirMembro'],
     '/admin/usuarios' => ['AdminController', 'usuarios'],
     '/admin/usuarios/criar' => ['AdminController', 'criarUsuario'],
     '/admin/atividades' => ['AdminController', 'atividades'],
@@ -27,6 +32,10 @@ $routes = [
     '/supervisor' => ['SupervisorController', 'dashboard'],
     '/supervisor/registrar' => ['SupervisorController', 'registrarAtividade'],
     '/supervisor/salvar-registro' => ['SupervisorController', 'salvarRegistro'],
+    '/supervisor/membro/adicionar' => ['SupervisorController', 'adicionarMembro'],
+    '/supervisor/membros' => ['SupervisorController', 'membros'],
+    '/supervisor/membros/editar' => ['SupervisorController', 'editarMembro'],
+    '/supervisor/membros/excluir' => ['SupervisorController', 'excluirMembro'],
 ];
 
 if (array_key_exists($uri, $routes)) {

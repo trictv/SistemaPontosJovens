@@ -12,9 +12,9 @@ class Registro {
         $this->db = Database::getInstance()->getConnection();
     }
 
-    public function create($grupo_id, $criado_por, $data) {
-        $stmt = $this->db->prepare("INSERT INTO registros (grupo_id, criado_por, data) VALUES (?, ?, ?)");
-        $stmt->execute([$grupo_id, $criado_por, $data]);
+    public function create($grupo_id, $criado_por, $data, $observacoes = null) {
+        $stmt = $this->db->prepare("INSERT INTO registros (grupo_id, criado_por, data, observacoes) VALUES (?, ?, ?, ?)");
+        $stmt->execute([$grupo_id, $criado_por, $data, $observacoes]);
         return $this->db->lastInsertId();
     }
 
