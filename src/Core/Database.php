@@ -10,9 +10,9 @@ class Database {
     private $connection;
 
     private $host = '127.0.0.1';
-    private $db   = 'youth_score';
-    private $user = 'youth_user';
-    private $pass = 'password';
+    private $db   = 'u769560658_Pontos';
+    private $user = 'u769560658_Pontos';
+    private $pass = 'm1401M!$';
     private $charset = 'utf8mb4';
 
     private function __construct() {
