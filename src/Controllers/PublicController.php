@@ -111,6 +111,53 @@ class PublicController {
         }
 
         foreach ($registros as $reg) {
+            // Busca detalhes dos itens deste registro
+            $queryItens = "
+                SELECT ri.id, ri.quantidade, ri.pontos_calculados, a.nome as atividade_nome, a.tipo_entrada
+                FROM registro_itens ri
+                LEFT JOIN atividades a ON ri.atividade_id = a.id
+                WHERE ri.registro_id = ? AND ri.deletado_em IS NULL
+            ";
+            $stmtItens = $db->prepare($queryItens);
+            $stmtItens->execute([$reg['id']]);
+            $itens = $stmtItens->fetchAll();
+
+            $detalhes = [];
+            foreach ($itens as $item) {
+                if (empty($item['atividade_nome'])) continue;
+
+                $detalheItem = [
+                    'nome' => $item['atividade_nome'],
+                    'pontos' => $item['pontos_calculados'],
+                    'tipo' => $item['tipo_entrada'],
+                    'pessoas' => []
+                ];
+
+                if ($item['tipo_entrada'] === 'check_membros') {
+                    // Busca membros presentes
+                    $stmtPresencas = $db->prepare("
+                        SELECT m.nome FROM presencas p
+                        JOIN membros m ON p.membro_id = m.id
+                        WHERE p.registro_item_id = ?
+                    ");
+                    $stmtPresencas->execute([$item['id']]);
+                    $membrosPresentes = $stmtPresencas->fetchAll(\PDO::FETCH_COLUMN);
+                    $detalheItem['pessoas'] = $membrosPresentes;
+                    $detalheItem['quantidade'] = count($membrosPresentes);
+                } elseif ($item['tipo_entrada'] === 'lista_nomes') {
+                    // Busca visitantes
+                    $stmtVisitantes = $db->prepare("SELECT nome FROM visitantes WHERE registro_item_id = ?");
+                    $stmtVisitantes->execute([$item['id']]);
+                    $visitantes = $stmtVisitantes->fetchAll(\PDO::FETCH_COLUMN);
+                    $detalheItem['pessoas'] = $visitantes;
+                    $detalheItem['quantidade'] = count($visitantes);
+                } elseif ($item['tipo_entrada'] === 'quantidade') {
+                    $detalheItem['quantidade'] = $item['quantidade'];
+                }
+
+                $detalhes[] = $detalheItem;
+            }
+
             $historicoCompleto[] = [
                 'tipo' => 'registro',
                 'data' => $reg['data'],
@@ -119,7 +166,8 @@ class PublicController {
                 'grupo_cor' => $reg['grupo_cor'],
                 'usuario_nome' => $reg['usuario_nome'],
                 'pontos' => $reg['total_pontos'],
-                'observacoes' => $reg['observacoes']
+                'observacoes' => $reg['observacoes'],
+                'detalhes' => $detalhes
             ];
         }
 
