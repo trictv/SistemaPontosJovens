@@ -107,10 +107,39 @@
                                     </p>
                                 <?php endif; ?>
 
+                                <?php if (!empty($item['detalhes'])): ?>
+                                    <div class="mt-4 space-y-3">
+                                        <?php foreach ($item['detalhes'] as $detalhe): ?>
+                                            <div class="bg-white border border-gray-100 rounded-md p-3 shadow-sm">
+                                                <div class="flex justify-between items-center mb-1">
+                                                    <span class="font-bold text-gray-700 text-sm flex items-center gap-1.5">
+                                                        <i class="fas fa-caret-right text-gray-400"></i>
+                                                        <?php echo htmlspecialchars($detalhe['nome']); ?>
+                                                        <?php if (isset($detalhe['quantidade']) && $detalhe['quantidade'] > 0): ?>
+                                                            <span class="bg-gray-100 text-gray-600 text-[10px] px-1.5 py-0.5 rounded ml-1"><?php echo $detalhe['quantidade']; ?></span>
+                                                        <?php endif; ?>
+                                                    </span>
+                                                    <span class="text-xs font-bold <?php echo $detalhe['pontos'] > 0 ? 'text-green-600' : 'text-gray-500'; ?>">
+                                                        <?php echo $detalhe['pontos'] > 0 ? '+' : ''; ?><?php echo $detalhe['pontos']; ?> pts
+                                                    </span>
+                                                </div>
+
+                                                <?php if (!empty($detalhe['pessoas'])): ?>
+                                                    <div class="mt-2 text-xs text-gray-500 flex flex-wrap gap-1">
+                                                        <?php foreach ($detalhe['pessoas'] as $pessoa): ?>
+                                                            <span class="bg-gray-50 border border-gray-100 px-2 py-0.5 rounded text-gray-600"><?php echo htmlspecialchars($pessoa); ?></span>
+                                                        <?php endforeach; ?>
+                                                    </div>
+                                                <?php endif; ?>
+                                            </div>
+                                        <?php endforeach; ?>
+                                    </div>
+                                <?php endif; ?>
+
                                 <?php if (!empty($item['observacoes'])): ?>
-                                    <div class="mt-3 flex items-start gap-2 bg-blue-50/50 p-3 rounded-lg border border-blue-100/50">
+                                    <div class="mt-4 flex items-start gap-2 bg-blue-50/50 p-3 rounded-lg border border-blue-100/50">
                                         <i class="fas fa-quote-left text-blue-300 mt-1 shrink-0"></i>
-                                        <p class="text-sm text-gray-600 italic">
+                                        <p class="text-sm text-gray-600 italic leading-relaxed">
                                             <?php echo htmlspecialchars($item['observacoes']); ?>
                                         </p>
                                     </div>
