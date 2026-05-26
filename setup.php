@@ -1,20 +1,21 @@
 <?php
 
 $host = '127.0.0.1';
-$user = 'root'; // Change as needed
-$pass = '';     // Change as needed
+$dbname = 'u769560658_Pontos';
+$user = 'u769560658_Pontos'; // Change as needed
+$pass = 'm1401M!$';     // Change as needed
 
 try {
-    $pdo = new PDO("mysql:host=$host;charset=utf8mb4", $user, $pass);
+    // Conecta diretamente ao banco existente
+    $pdo = new PDO(
+        "mysql:host=$host;dbname=$dbname;charset=utf8mb4",
+        $user,
+        $pass
+    );
+
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    echo "Conectado ao servidor MySQL com sucesso.<br>";
-
-    // Criar banco de dados
-    $pdo->exec("CREATE DATABASE IF NOT EXISTS youth_score CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
-    echo "Banco de dados 'youth_score' criado/verificado.<br>";
-
-    $pdo->exec("USE youth_score");
+    echo "Conectado ao banco '$dbname' com sucesso.<br>";
 
     // Tabela: configuracoes
     $pdo->exec("
