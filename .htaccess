@@ -1,0 +1,12 @@
+RewriteEngine On
+
+# Impede que o Apache tente adivinhar extensões (evita bugs com o index.php)
+Options -MultiViews
+
+# Se o arquivo ou diretório solicitado existir fisicamente, acessa ele direto
+# (Isso garante que suas imagens, CSS e JavaScript continuem carregando)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Redireciona tudo o resto para o index.php
+RewriteRule ^(.*)$ index.php [L,QSA]
