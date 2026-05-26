@@ -47,7 +47,7 @@
 
     <div class="lg:col-span-3">
         <div class="bg-white rounded-lg shadow-sm overflow-hidden">
-            <div class="overflow-x-auto">
+            <div class="overflow-x-auto mobile-cards">
                 <table class="min-w-full divide-y divide-gray-200">
                     <thead class="bg-gray-50">
                         <tr>
@@ -60,18 +60,18 @@
                     <tbody class="bg-white divide-y divide-gray-200">
                         <?php foreach ($membros as $membro): ?>
                             <tr>
-                                <td class="px-6 py-4 whitespace-nowrap">
+                                <td class="px-6 py-4 whitespace-nowrap" data-label="Membro">
                                     <div class="text-sm font-medium text-gray-900"><?php echo htmlspecialchars($membro['nome']); ?></div>
                                 </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
+                                <td class="px-6 py-4 whitespace-nowrap" data-label="Membro">
                                     <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full <?php echo $membro['status'] === 'ativo' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'; ?>">
                                         <?php echo ucfirst($membro['status']); ?>
                                     </span>
                                 </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500" data-label="Cadastro">
                                     <?php echo date('d/m/Y', strtotime($membro['data_cadastro'])); ?>
                                 </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium" data-label="Ações">
                                     <button onclick="editarMembro(<?php echo htmlspecialchars(json_encode([
                                         'id' => $membro['id'],
                                         'nome' => $membro['nome'],
