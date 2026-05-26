@@ -147,4 +147,24 @@ class SupervisorController {
             die();
         }
     }
+
+    public function adicionarMembro() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $nome = trim($_POST['nome'] ?? '');
+
+            if (!empty($nome)) {
+                $this->membroModel->create($nome, $this->grupo_id);
+                $this->historicoModel->log('Adicionou membro', null, null, "Membro: {$nome}", $this->grupo_id);
+
+                $_SESSION['flash_message'] = "Membro '{$nome}' adicionado com sucesso!";
+                $_SESSION['flash_type'] = "success";
+            } else {
+                $_SESSION['flash_message'] = "O nome do membro não pode estar vazio.";
+                $_SESSION['flash_type'] = "error";
+            }
+
+            header("Location: /supervisor");
+            die();
+        }
+    }
 }

@@ -27,6 +27,7 @@ $routes = [
     '/supervisor' => ['SupervisorController', 'dashboard'],
     '/supervisor/registrar' => ['SupervisorController', 'registrarAtividade'],
     '/supervisor/salvar-registro' => ['SupervisorController', 'salvarRegistro'],
+    '/supervisor/membro/adicionar' => ['SupervisorController', 'adicionarMembro'],
 ];
 
 if (array_key_exists($uri, $routes)) {

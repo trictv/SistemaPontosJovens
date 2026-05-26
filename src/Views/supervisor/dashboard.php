@@ -34,8 +34,14 @@
 
 <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
     <div class="bg-white rounded-lg shadow-sm overflow-hidden">
-        <div class="px-6 py-4 border-b border-gray-100 flex justify-between items-center">
+        <div class="px-6 py-4 border-b border-gray-100 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
             <h3 class="text-lg font-bold text-gray-800">Membros (<?php echo count($membros); ?>)</h3>
+            <form action="/supervisor/membro/adicionar" method="POST" class="flex w-full sm:w-auto">
+                <input type="text" name="nome" placeholder="Nome do membro" required class="flex-1 min-w-0 px-3 py-1 border border-gray-300 rounded-l-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-sm">
+                <button type="submit" class="bg-blue-600 text-white px-3 py-1 rounded-r-md hover:bg-blue-700 text-sm font-medium whitespace-nowrap">
+                    Adicionar
+                </button>
+            </form>
         </div>
         <ul class="divide-y divide-gray-100 max-h-96 overflow-y-auto">
             <?php foreach ($membros as $membro): ?>
