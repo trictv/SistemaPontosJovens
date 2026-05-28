@@ -31,7 +31,7 @@
             <div class="text-center bg-blue-50 border border-blue-100 px-4 py-2 rounded-lg shadow-sm">
                 <p class="text-xs text-blue-600 uppercase font-bold tracking-wider mb-0.5">Pontos</p>
                 <p class="text-3xl font-extrabold text-blue-700 leading-none">
-                    <?php echo number_format($grupo['pontos'], 0, ',', '.'); ?>
+                    <?php echo number_format($grupo['pontos'], 2, ',', '.'); ?>
                 </p>
             </div>
         </div>

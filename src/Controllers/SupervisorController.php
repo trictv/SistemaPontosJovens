@@ -99,7 +99,7 @@ class SupervisorController {
                             $marcados = count($dados['membros']);
                             if ($atividade['tipo_pontuacao'] === 'proporcional') {
                                 $percentual = $marcados / $totalMembros;
-                                $pontos_calculados = round($percentual * $atividade['pontos']);
+                                $pontos_calculados = round($percentual * $atividade['pontos'], 2);
                             } else {
                                 $pontos_calculados = $marcados * $atividade['pontos'];
                             }

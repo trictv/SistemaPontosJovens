@@ -120,7 +120,7 @@
                                                         <?php endif; ?>
                                                     </span>
                                                     <span class="text-xs font-bold <?php echo $detalhe['pontos'] > 0 ? 'text-green-600' : 'text-gray-500'; ?>">
-                                                        <?php echo $detalhe['pontos'] > 0 ? '+' : ''; ?><?php echo $detalhe['pontos']; ?> pts
+                                                        <?php echo $detalhe['pontos'] > 0 ? '+' : ''; ?><?php echo number_format($detalhe['pontos'], 2, ',', '.'); ?> pts
                                                     </span>
                                                 </div>
 
@@ -151,7 +151,7 @@
                                 <div class="shrink-0 text-center">
                                     <div class="inline-flex items-center justify-center px-3 py-2 rounded-lg font-black text-lg shadow-sm border
                                         <?php echo $item['pontos'] > 0 ? 'bg-green-50 text-green-700 border-green-200' : 'bg-red-50 text-red-700 border-red-200'; ?>">
-                                        <?php echo $item['pontos'] > 0 ? '+' : ''; ?><?php echo $item['pontos']; ?>
+                                        <?php echo $item['pontos'] > 0 ? '+' : ''; ?><?php echo number_format($item['pontos'], 2, ',', '.'); ?>
                                     </div>
                                     <div class="text-[10px] uppercase font-bold text-gray-400 mt-1">Pontos</div>
                                 </div>

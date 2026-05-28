@@ -79,7 +79,7 @@ try {
             nome VARCHAR(100) NOT NULL,
             tipo_pontuacao ENUM('fixo', 'proporcional', 'bonus_penalidade') NOT NULL,
             tipo_entrada ENUM('check_membros', 'lista_nomes', 'quantidade', 'valor_manual') NOT NULL,
-            pontos INT NOT NULL,
+            pontos DECIMAL(10,2) NOT NULL,
             deletado_em DATETIME NULL
         )
     ");
@@ -109,9 +109,9 @@ try {
             registro_id INT NOT NULL,
             atividade_id INT NULL,
             quantidade INT NULL,
-            valor_manual INT NULL,
+            valor_manual DECIMAL(10,2) NULL,
             motivo VARCHAR(255) NULL,
-            pontos_calculados INT NOT NULL,
+            pontos_calculados DECIMAL(10,2) NOT NULL,
             deletado_em DATETIME NULL,
             FOREIGN KEY (registro_id) REFERENCES registros(id),
             FOREIGN KEY (atividade_id) REFERENCES atividades(id)
@@ -149,7 +149,7 @@ try {
             usuario_id INT NULL,
             grupo_id INT NULL,
             acao VARCHAR(100) NOT NULL,
-            valor INT NULL,
+            valor DECIMAL(10,2) NULL,
             motivo TEXT NULL,
             detalhes TEXT NULL,
             data DATETIME NOT NULL,
@@ -159,6 +159,13 @@ try {
         )
     ");
     echo "Tabela 'historico' criada.<br>";
+
+    // Modificar colunas caso as tabelas já existam
+    $pdo->exec("ALTER TABLE atividades MODIFY COLUMN pontos DECIMAL(10,2) NOT NULL");
+    $pdo->exec("ALTER TABLE registro_itens MODIFY COLUMN valor_manual DECIMAL(10,2) NULL");
+    $pdo->exec("ALTER TABLE registro_itens MODIFY COLUMN pontos_calculados DECIMAL(10,2) NOT NULL");
+    $pdo->exec("ALTER TABLE historico MODIFY COLUMN valor DECIMAL(10,2) NULL");
+    echo "Colunas de pontuação ajustadas para DECIMAL(10,2).<br>";
 
     // Dados iniciais
     $pdo->exec("INSERT IGNORE INTO configuracoes (chave, valor) VALUES ('campeonato_inicio', '2025-01-01'), ('campeonato_fim', '2025-12-31')");

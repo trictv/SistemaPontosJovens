@@ -30,7 +30,7 @@
                     <div class="font-black text-lg text-gray-600">2º</div>
                 </div>
                 <div class="bg-white border border-gray-200 w-full py-2 text-center rounded-b-xl shadow-sm -mt-1 z-20">
-                    <div class="font-bold text-sm text-gray-800"><?php echo number_format($ranking[1]['pontos'], 0, ',', '.'); ?></div>
+                    <div class="font-bold text-sm text-gray-800"><?php echo number_format($ranking[1]['pontos'], 2, ',', '.'); ?></div>
                     <div class="text-[10px] text-gray-400 uppercase font-bold">pts</div>
                 </div>
             </div>
@@ -50,7 +50,7 @@
                     <div class="font-black text-2xl text-white drop-shadow-md">1º</div>
                 </div>
                 <div class="bg-white border-2 border-yellow-400 w-full py-3 text-center rounded-b-xl shadow-md -mt-1 z-20">
-                    <div class="font-black text-lg text-yellow-600 leading-none"><?php echo number_format($ranking[0]['pontos'], 0, ',', '.'); ?></div>
+                    <div class="font-black text-lg text-yellow-600 leading-none"><?php echo number_format($ranking[0]['pontos'], 2, ',', '.'); ?></div>
                     <div class="text-[10px] text-yellow-500 uppercase font-bold">pts</div>
                 </div>
             </div>
@@ -69,7 +69,7 @@
                     <div class="font-black text-lg text-orange-200">3º</div>
                 </div>
                 <div class="bg-white border border-gray-200 w-full py-2 text-center rounded-b-xl shadow-sm -mt-1 z-20">
-                    <div class="font-bold text-sm text-gray-800"><?php echo number_format($ranking[2]['pontos'], 0, ',', '.'); ?></div>
+                    <div class="font-bold text-sm text-gray-800"><?php echo number_format($ranking[2]['pontos'], 2, ',', '.'); ?></div>
                     <div class="text-[10px] text-gray-400 uppercase font-bold">pts</div>
                 </div>
             </div>
@@ -127,7 +127,7 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-right" data-label="Pontos">
                                 <div class="text-base font-black text-gray-900 group-hover:scale-110 transition-transform origin-right">
-                                    <?php echo number_format($grupo['pontos'], 0, ',', '.'); ?> <span class="text-xs text-gray-400 font-bold uppercase">pts</span>
+                                    <?php echo number_format($grupo['pontos'], 2, ',', '.'); ?> <span class="text-xs text-gray-400 font-bold uppercase">pts</span>
                                 </div>
                             </td>
                         </tr>
