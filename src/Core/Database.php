@@ -1,7 +1,7 @@
 <?php
 
 namespace Core;
-
+date_default_timezone_set('America/Sao_Paulo');
 use PDO;
 use PDOException;
 

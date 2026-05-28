@@ -1,7 +1,7 @@
 <?php
 
 namespace Models;
-
+date_default_timezone_set('America/Sao_Paulo');
 use Core\Database;
 use PDO;
 
@@ -17,7 +17,7 @@ class Historico {
 
         $stmt = $this->db->prepare("
             INSERT INTO historico (usuario_id, grupo_id, acao, valor, motivo, detalhes, data)
-            VALUES (?, ?, ?, ?, ?, ?, NOW())
+            VALUES (?, ?, ?, ?, ?, ?, '" . date('Y-m-d H:i:s') . "')
         ");
         return $stmt->execute([
             $usuario_id,
