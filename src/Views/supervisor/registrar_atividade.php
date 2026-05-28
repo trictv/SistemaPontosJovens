@@ -33,7 +33,7 @@
                     </h3>
                     <p class="text-sm text-gray-500 mt-1 ml-8">
                         <span class="inline-block bg-gray-100 text-gray-600 text-[10px] uppercase font-bold px-2 py-0.5 rounded">
-                            <?php echo $atividade['tipo_pontuacao'] === 'proporcional' ? "Até {$atividade['pontos']} pts (Proporcional)" : "{$atividade['pontos']} pts/item"; ?>
+                            <?php echo $atividade['tipo_pontuacao'] === 'proporcional' ? "Até " . number_format($atividade['pontos'], 2, ',', '.') . " pts (Proporcional)" : number_format($atividade['pontos'], 2, ',', '.') . " pts/item"; ?>
                         </span>
                     </p>
                 </div>

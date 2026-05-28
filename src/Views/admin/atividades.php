@@ -28,7 +28,7 @@
                 </div>
                 <div class="mb-4">
                     <label class="block text-sm font-medium text-gray-700 mb-1">Pontos Base</label>
-                    <input type="number" name="pontos" required class="w-full px-3 py-2 border border-gray-300 rounded-md">
+                    <input type="number" name="pontos" step="0.01" required class="w-full px-3 py-2 border border-gray-300 rounded-md">
                 </div>
                 <button type="submit" class="w-full bg-blue-600 text-white font-bold py-2 px-4 rounded hover:bg-blue-700">
                     Salvar Atividade
@@ -61,7 +61,7 @@
                                 <?php echo str_replace('_', ' ', ucfirst($atividade['tipo_entrada'])); ?>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-bold text-blue-600">
-                                <?php echo $atividade['pontos']; ?> pts
+                                <?php echo number_format($atividade['pontos'], 2, ',', '.'); ?> pts
                             </td>
                         </tr>
                     <?php endforeach; ?>
